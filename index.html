@@ -76,8 +76,13 @@ button { cursor: pointer; }
 
 /* Encabezado */
 .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.brand { font-family: var(--font-note); font-weight: 700; font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; }
-.brand span { color: var(--accent); }
+.tabs { display: flex; gap: 18px; align-items: flex-end; }
+.tab {
+  background: none; border: 0; padding: 2px 0 3px; border-bottom: 3px solid transparent;
+  font-family: var(--font-note); font-weight: 700; font-size: 23px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted);
+}
+.tab[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+.view { display: flex; flex-direction: column; gap: 14px; flex: 1; }
 
 .theme-switch {
   position: relative; width: 58px; height: 32px; border-radius: 999px;
@@ -135,7 +140,6 @@ button { cursor: pointer; }
   display: flex; align-items: baseline; gap: 2px;
 }
 .note sub { font-size: 30px; font-weight: 600; color: var(--muted); vertical-align: baseline; }
-.note .letter { font-size: 20px; font-weight: 600; color: var(--muted); margin-left: 10px; letter-spacing: 0.04em; }
 .cents { font-family: var(--font-mono); font-size: 18px; font-variant-numeric: tabular-nums; color: var(--muted); }
 .hint { font-weight: 600; font-size: 16px; min-height: 23px; }
 .hint.ok { color: var(--ok); } .hint.warn { color: var(--warn); } .hint.off { color: var(--off); }
@@ -184,6 +188,64 @@ button { cursor: pointer; }
 .ref button { width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-size: 18px; line-height: 1; }
 .stop { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 7px 12px; font-size: 13px; font-weight: 600; color: var(--muted); }
 
+/* Acordes */
+.roots {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 3px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px;
+}
+.roots button {
+  border: 0; background: transparent; border-radius: 10px; padding: 7px 0;
+  font-family: var(--font-note); font-weight: 700; font-size: 19px; color: var(--muted);
+}
+.roots button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.types { display: flex; flex-wrap: wrap; gap: 6px; }
+.types button {
+  border: 1px solid var(--line); background: var(--surface); border-radius: 999px;
+  padding: 5px 11px; font-weight: 600; font-size: 14px; color: var(--muted);
+}
+.types button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--fg); }
+.chord-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+  padding: 16px; display: flex; flex-direction: column; gap: 8px;
+}
+.chord-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.chord-name { font-family: var(--font-note); font-weight: 700; font-size: 54px; line-height: 1; min-width: 0; overflow-wrap: anywhere; }
+.play {
+  flex: none; border: 0; border-radius: 999px; padding: 10px 16px 10px 12px; background: var(--accent); color: #fff;
+  font-weight: 600; display: inline-flex; align-items: center; gap: 6px;
+}
+.play svg { width: 18px; height: 18px; }
+:root[data-theme="dark"] .play { color: #1A140A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .play { color: #1A140A; } }
+.tones { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.tone { display: flex; flex-direction: column; align-items: center; min-width: 22px; }
+.tone b { font-family: var(--font-note); font-size: 20px; line-height: 1.1; }
+.tone span { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.tone.opt b { color: var(--muted); }
+.diagram { width: 100%; max-width: 250px; height: auto; align-self: center; touch-action: pan-y; }
+.diagram .d-string { stroke: var(--muted); stroke-width: 1.4; }
+.diagram .d-fret { stroke: var(--line); stroke-width: 2; }
+.diagram .d-nut { fill: var(--fg); }
+.diagram .d-dot { fill: var(--fg); }
+.diagram .d-dot.root { fill: var(--accent); }
+.diagram .d-fing { fill: var(--surface); font: 600 14px var(--font-body); text-anchor: middle; }
+.diagram .d-open { fill: none; stroke: var(--fg); stroke-width: 1.8; }
+.diagram .d-open.root { stroke: var(--accent); stroke-width: 2.4; }
+.diagram .d-mute { fill: var(--muted); font: 500 17px var(--font-body); text-anchor: middle; }
+.diagram .d-base { fill: var(--fg); font: 700 17px var(--font-note); text-anchor: end; }
+.diagram .d-base-u { fill: var(--muted); font: 500 11px var(--font-mono); text-anchor: end; }
+.diagram .d-note { fill: var(--muted); font: 500 12px var(--font-mono); text-anchor: middle; }
+.diagram .d-note.root { fill: var(--accent); font-weight: 700; }
+.pos-nav { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.pos-nav span { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 120px; text-align: center; }
+.pos-nav button {
+  width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface);
+  font-size: 24px; line-height: 1; padding: 0 0 3px;
+}
+.pos-nav button:disabled { opacity: .35; cursor: default; }
+.chord-msg { margin: 0; font-size: 13px; color: var(--muted); }
+.chord-msg.warn { color: var(--warn); font-weight: 500; }
+
 @media (prefers-reduced-motion: reduce) {
   .gauge .needle, .theme-switch .knob, .auto .track::after { transition: none; }
 }
@@ -196,7 +258,10 @@ button { cursor: pointer; }
 <body>
 <main class="app">
   <header class="top">
-    <div class="brand">Afinador<span>.</span></div>
+    <div class="tabs" role="tablist" aria-label="Secciones">
+      <button class="tab" role="tab" id="tabTuner" aria-controls="viewTuner" aria-selected="true">Afinador</button>
+      <button class="tab" role="tab" id="tabChords" aria-controls="viewChords" aria-selected="false">Acordes</button>
+    </div>
     <button class="theme-switch" id="themeSwitch" role="switch" aria-checked="false" aria-label="Modo oscuro">
       <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
       <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></svg>
@@ -204,6 +269,7 @@ button { cursor: pointer; }
     </button>
   </header>
 
+  <div class="view" id="viewTuner" role="tabpanel" aria-labelledby="tabTuner">
   <nav class="instruments" id="instruments" aria-label="Instrumento"></nav>
 
   <div class="tuning-row" id="tuningRow">
@@ -245,20 +311,43 @@ button { cursor: pointer; }
 
   <footer class="bottom">
     <div class="ref">
-      <span class="lab">La =</span>
+      <span class="lab">A4 =</span>
       <button id="refDown" aria-label="Bajar referencia">−</button>
       <span class="val" id="refVal">440 Hz</span>
       <button id="refUp" aria-label="Subir referencia">+</button>
     </div>
     <button class="stop" id="stopBtn" hidden>Pausar</button>
   </footer>
+  </div>
+
+  <div class="view" id="viewChords" role="tabpanel" aria-labelledby="tabChords" hidden>
+    <nav class="roots" id="roots" aria-label="Tónica"></nav>
+    <div class="types" id="types" role="group" aria-label="Tipo de acorde"></div>
+    <section class="chord-card">
+      <div class="chord-head">
+        <div class="chord-name" id="chordName">C</div>
+        <button class="play" id="playBtn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+          Escuchar
+        </button>
+      </div>
+      <div class="tones" id="chordTones"></div>
+      <svg class="diagram" id="diagram" viewBox="0 0 240 290" role="img" aria-label="Diagrama del acorde"></svg>
+      <div class="pos-nav">
+        <button id="posPrev" aria-label="Posición anterior">‹</button>
+        <span id="posLabel">Posición 1 de 4</span>
+        <button id="posNext" aria-label="Posición siguiente">›</button>
+      </div>
+    </section>
+    <p class="chord-msg" id="chordMsg"></p>
+  </div>
 </main>
 
 <script>
 'use strict';
 
 /* ---------------- Datos de instrumentos ----------------
-   Notas en número MIDI (La4 = 69). Las cuerdas van de grave a aguda,
+   Notas en número MIDI (A4 = 69). Las cuerdas van de grave a aguda,
    salvo el banjo, que va 5ª (corta), 4ª, 3ª, 2ª, 1ª. */
 const INSTRUMENTS = {
   guitarra: {
@@ -266,11 +355,11 @@ const INSTRUMENTS = {
     nums: ['6', '5', '4', '3', '2', '1'],
     tunings: [
       { id: 'estandar', label: 'Estándar',             notes: [40, 45, 50, 55, 59, 64] },
-      { id: 'medio',    label: 'Medio tono abajo (Mi♭)', notes: [39, 44, 49, 54, 58, 63], flats: true },
-      { id: 'tono',     label: 'Un tono abajo (Re)',   notes: [38, 43, 48, 53, 57, 62] },
+      { id: 'medio',    label: 'Medio tono abajo (E♭)', notes: [39, 44, 49, 54, 58, 63], flats: true },
+      { id: 'tono',     label: 'Un tono abajo (D)',    notes: [38, 43, 48, 53, 57, 62] },
       { id: 'dropd',    label: 'Drop D',               notes: [38, 45, 50, 55, 59, 64] },
-      { id: 'solab',    label: 'Sol abierto',          notes: [38, 43, 50, 55, 59, 62] },
-      { id: 'reab',     label: 'Re abierto',           notes: [38, 45, 50, 54, 57, 62] },
+      { id: 'solab',    label: 'Open G',               notes: [38, 43, 50, 55, 59, 62] },
+      { id: 'reab',     label: 'Open D',               notes: [38, 45, 50, 54, 57, 62] },
       { id: 'dadgad',   label: 'DADGAD',               notes: [38, 45, 50, 55, 57, 62] }
     ]
   },
@@ -282,7 +371,7 @@ const INSTRUMENTS = {
   banjo: {
     label: 'Banjo', minF: 125, maxF: 1100, lpf: 1600,
     nums: ['5', '4', '3', '2', '1'],
-    tunings: [{ id: 'estandar', label: 'Sol abierto', notes: [67, 50, 55, 59, 62] }]
+    tunings: [{ id: 'estandar', label: 'Open G', notes: [67, 50, 55, 59, 62] }]
   },
   chelo: {
     label: 'Chelo', minF: 56, maxF: 900, lpf: 1000,
@@ -290,14 +379,12 @@ const INSTRUMENTS = {
     tunings: [{ id: 'estandar', label: 'Estándar', notes: [36, 43, 50, 57] }]
   }
 };
-const NAMES_SHARP = ['Do', 'Do♯', 'Re', 'Re♯', 'Mi', 'Fa', 'Fa♯', 'Sol', 'Sol♯', 'La', 'La♯', 'Si'];
-const NAMES_FLAT  = ['Do', 'Re♭', 'Re', 'Mi♭', 'Mi', 'Fa', 'Sol♭', 'Sol', 'La♭', 'La', 'Si♭', 'Si'];
 const LET_SHARP   = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'];
 const LET_FLAT    = ['C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B♭', 'B'];
 
 const noteParts = (midi, flats) => {
   const pc = ((midi % 12) + 12) % 12;
-  return { name: (flats ? NAMES_FLAT : NAMES_SHARP)[pc], letter: (flats ? LET_FLAT : LET_SHARP)[pc], oct: Math.floor(midi / 12) - 1 };
+  return { name: (flats ? LET_FLAT : LET_SHARP)[pc], oct: Math.floor(midi / 12) - 1 };
 };
 
 /* ---------------- Detección de tono (McLeod / NSDF) ---------------- */
@@ -365,6 +452,230 @@ function detectPitch(buf, sr, minF, maxF) {
 }
 // DSP-END
 
+/* ---------------- Motor de acordes ---------------- */
+/* Motor de acordes: calcula digitaciones tocables para guitarra en afinación estándar. */
+const STD = [40, 45, 50, 55, 59, 64]; // E2 A2 D3 G3 B3 E4
+const ROOTS = [
+  { name: 'C', pc: 0, letter: 0 }, { name: 'C♯', pc: 1, letter: 0 }, { name: 'D', pc: 2, letter: 1 },
+  { name: 'E♭', pc: 3, letter: 2 }, { name: 'E', pc: 4, letter: 2 }, { name: 'F', pc: 5, letter: 3 },
+  { name: 'F♯', pc: 6, letter: 3 }, { name: 'G', pc: 7, letter: 4 }, { name: 'A♭', pc: 8, letter: 5 },
+  { name: 'A', pc: 9, letter: 5 }, { name: 'B♭', pc: 10, letter: 6 }, { name: 'B', pc: 11, letter: 6 }
+];
+// Intervalo: [semitonos, pasos de letra, etiqueta]
+const IV = {
+  '1': [0, 0, '1'], '2': [2, 1, '2'], 'b3': [3, 2, '♭3'], '3': [4, 2, '3'], '4': [5, 3, '4'],
+  'b5': [6, 4, '♭5'], '5': [7, 4, '5'], '#5': [8, 4, '♯5'], '6': [9, 5, '6'], 'bb7': [9, 6, '𝄫7'],
+  'b7': [10, 6, '♭7'], '7': [11, 6, '7'], '9': [14, 1, '9'], '11': [17, 3, '11'], '13': [21, 5, '13']
+};
+// req: notas obligatorias; opt: se pueden omitir (normalmente la 5ª)
+const TYPES = [
+  { id: 'M',     sym: '',      label: 'Mayor', req: ['1', '3', '5'] },
+  { id: 'm',     sym: 'm',     label: 'm',     req: ['1', 'b3', '5'] },
+  { id: '7',     sym: '7',     label: '7',     req: ['1', '3', 'b7'], opt: ['5'] },
+  { id: 'maj7',  sym: 'maj7',  label: 'maj7',  req: ['1', '3', '7'], opt: ['5'] },
+  { id: 'm7',    sym: 'm7',    label: 'm7',    req: ['1', 'b3', 'b7'], opt: ['5'] },
+  { id: '6',     sym: '6',     label: '6',     req: ['1', '3', '6'], opt: ['5'] },
+  { id: 'm6',    sym: 'm6',    label: 'm6',    req: ['1', 'b3', '6'], opt: ['5'] },
+  { id: '9',     sym: '9',     label: '9',     req: ['1', '3', 'b7', '9'], opt: ['5'] },
+  { id: 'maj9',  sym: 'maj9',  label: 'maj9',  req: ['1', '3', '7', '9'], opt: ['5'] },
+  { id: 'm9',    sym: 'm9',    label: 'm9',    req: ['1', 'b3', 'b7', '9'], opt: ['5'] },
+  { id: 'add9',  sym: 'add9',  label: 'add9',  req: ['1', '3', '5', '9'] },
+  { id: 'sus2',  sym: 'sus2',  label: 'sus2',  req: ['1', '2', '5'] },
+  { id: 'sus4',  sym: 'sus4',  label: 'sus4',  req: ['1', '4', '5'] },
+  { id: '7sus4', sym: '7sus4', label: '7sus4', req: ['1', '4', 'b7'], opt: ['5'] },
+  { id: 'dim',   sym: 'dim',   label: 'dim',   req: ['1', 'b3', 'b5'], min: 3 },
+  { id: 'dim7',  sym: 'dim7',  label: 'dim7',  req: ['1', 'b3', 'b5', 'bb7'] },
+  { id: 'm7b5',  sym: 'm7♭5',  label: 'm7♭5',  req: ['1', 'b3', 'b5', 'b7'] },
+  { id: 'aug',   sym: 'aug',   label: 'aug',   req: ['1', '3', '#5'], min: 3 },
+  { id: '11',    sym: '11',    label: '11',    req: ['1', 'b7', '11'], opt: ['5', '9'] },
+  { id: '13',    sym: '13',    label: '13',    req: ['1', '3', 'b7', '13'], opt: ['5', '9'] },
+  { id: '5',     sym: '5',     label: '5',     req: ['1', '5'], min: 2 }
+];
+
+// Formas estándar revisadas a mano: se muestran siempre como primera posición.
+const CANON = {
+  M:    ['x32010','x46664','xx0232','x68886','022100','133211','244322','320003','466544','x02220','x13331','x24442'],
+  m:    ['x35543','x46654','xx0231','x68876','022000','133111','244222','355333','466444','x02210','x13321','x24432'],
+  '7':  ['x32310','x46464','xx0212','x68686','020100','131211','242322','320001','464544','x02020','x13131','x21202'],
+  m7:   ['x35343','x46454','xx0211','x68676','020000','131111','242222','353333','464444','x02010','x13121','x20202'],
+  maj7: ['x32000','x46564','xx0222','x68786','021100','xx3210','2x3322','320002','4x554x','x02120','x13231','x24342'],
+  '9':  ['x3233x',null,null,null,'020102',null,null,'320201',null,null,null,null],
+  sus2: [null,null,'xx0230',null,null,null,null,null,null,'x02200',null,null],
+  sus4: [null,null,'xx0233',null,'022200',null,null,'330013',null,'x02230',null,null],
+  add9: ['x32033',null,null,null,'024100',null,null,'320203',null,'x02420',null,null]
+};
+const parseShape = sh => {
+  const out = [];
+  for (let i = 0; i < sh.length; i++) out.push(sh[i] === 'x' ? -1 : parseInt(sh[i], 10));
+  return out;
+};
+const LETTERS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+const LETTER_PC = [0, 2, 4, 5, 7, 9, 11];
+
+function spell(root, ivKey) {
+  const [semi, steps] = IV[ivKey];
+  const li = (root.letter + steps) % 7;
+  const target = (root.pc + semi) % 12;
+  let diff = ((target - LETTER_PC[li]) % 12 + 12) % 12;
+  if (diff > 6) diff -= 12;
+  const acc = { '-2': '𝄫', '-1': '♭', '0': '', '1': '♯', '2': '𝄪' }[diff] ?? '';
+  return LETTERS[li] + acc;
+}
+
+function chordInfo(rootIdx, typeId) {
+  const root = ROOTS[rootIdx], type = TYPES.find(t => t.id === typeId);
+  const keys = [...type.req, ...(type.opt || [])].sort((a, b) => IV[a][0] - IV[b][0]);
+  return {
+    name: root.name + type.sym,
+    notes: keys.map(k => spell(root, k)),
+    degrees: keys.map(k => IV[k][2]),
+    optional: keys.map(k => !type.req.includes(k))
+  };
+}
+
+function fingering(frets) {
+  const fretted = [];
+  frets.forEach((f, i) => { if (f > 0) fretted.push(i); });
+  const fingers = frets.map(() => 0);
+  if (!fretted.length) return { fingers, barre: null, count: 0 };
+  const minF = Math.min(...fretted.map(i => frets[i]));
+  const assignWith = (list, start, group) => {
+    const sorted = [...list].sort((a, b) => frets[a] - frets[b] || a - b);
+    let prev = start, out = {}, last = -1;
+    for (const i of sorted) {
+      // un mismo dedo puede pisar cuerdas vecinas en el mismo traste (mini cejilla)
+      if (group && last >= 0 && frets[last] === frets[i] && i === last + 1) { out[i] = out[last]; last = i; continue; }
+      const f = Math.max(prev + 1, frets[i] - minF + 1);
+      if (f > 4) return null;
+      out[i] = f; prev = f; last = i;
+    }
+    return out;
+  };
+  const assign = (list, start) => assignWith(list, start, false) || assignWith(list, start, true);
+  const plain = fretted.length <= 4 ? assign(fretted, 0) : null;
+  let barred = null, barre = null;
+  const atMin = fretted.filter(i => frets[i] === minF);
+  if (atMin.length >= 2) {
+    const a = atMin[0], b = atMin[atMin.length - 1];
+    let ok = true, allMin = true;
+    for (let i = a; i <= b; i++) { if (!(frets[i] >= minF)) ok = false; if (frets[i] !== minF) allMin = false; }
+    if (ok) {
+      const rest = fretted.filter(i => !(i >= a && i <= b && frets[i] === minF));
+      const r = assign(rest, 1);
+      if (r) { barred = r; barre = { fret: minF, from: a, to: b, allMin }; }
+    }
+  }
+  const plainCount = plain ? new Set(Object.values(plain)).size : 99;
+  const barreCount = barred ? 1 + new Set(Object.values(barred)).size : 99;
+  let useBarre = false;
+  if (!plain && barred) useBarre = true;
+  else if (plain && barred && plainCount === 4 && barreCount < 4 && barre.allMin) useBarre = true;
+  if (useBarre) {
+    for (let i = barre.from; i <= barre.to; i++) if (frets[i] === minF) fingers[i] = 1;
+    for (const [i, f] of Object.entries(barred)) fingers[i] = f;
+    return { fingers, barre: { fret: barre.fret, from: barre.from, to: barre.to }, count: barreCount };
+  }
+  if (!plain) return null;
+  for (const [i, f] of Object.entries(plain)) fingers[i] = f;
+  return { fingers, barre: null, count: plainCount };
+}
+
+function voicings(rootIdx, typeId, max = 4) {
+  const root = ROOTS[rootIdx], type = TYPES.find(t => t.id === typeId);
+  const reqPcs = type.req.map(k => (root.pc + IV[k][0]) % 12);
+  const optPcs = (type.opt || []).map(k => (root.pc + IV[k][0]) % 12);
+  const allowed = new Set([...reqPcs, ...optPcs]);
+  const minStrings = type.min || 4;
+  const seen = new Map();
+
+  for (let s = 0; s <= 12; s++) {
+    const opts = STD.map(open => {
+      const o = ['x'];
+      if (allowed.has(open % 12)) o.push(0);
+      for (let f = Math.max(1, s); f <= s + 3; f++) if (allowed.has((open + f) % 12)) o.push(f);
+      return o;
+    });
+    const cur = [];
+    (function rec(i) {
+      if (i === 6) { consider(cur.slice()); return; }
+      for (const o of opts[i]) { cur[i] = o; rec(i + 1); }
+    })(0);
+  }
+
+  function consider(fr) {
+    const key = fr.join(',');
+    if (seen.has(key)) return;
+    const sounding = [];
+    fr.forEach((f, i) => { if (f !== 'x') sounding.push(i); });
+    if (sounding.length < minStrings) return;
+    const bass = sounding[0];
+    if ((STD[bass] + fr[bass]) % 12 !== root.pc) return;
+    const pcs = new Set(sounding.map(i => (STD[i] + fr[i]) % 12));
+    if (!reqPcs.every(p => pcs.has(p))) return;
+    const top = sounding[sounding.length - 1];
+    let interior = 0;
+    for (let i = bass; i <= top; i++) if (fr[i] === 'x') interior++;
+    if (interior > 1) return;
+    const frets = fr.map(f => (f === 'x' ? -1 : f));
+    const fing = fingering(frets);
+    if (!fing) return;
+    const frettedFrets = frets.filter(f => f > 0);
+    const minF = frettedFrets.length ? Math.min(...frettedFrets) : 0;
+    const maxF = frettedFrets.length ? Math.max(...frettedFrets) : 0;
+    const opens = frets.filter(f => f === 0).length;
+    if (opens && maxF > 4) return; // cuerdas al aire solo con formas en los primeros trastes
+    let openInside = 0;
+    for (let i = bass + 1; i < top; i++) if (frets[i] === 0 && frets.slice(i + 1).some(f => f > 0) && frets.slice(0, i).some(f => f > 0)) openInside++;
+    const missingOpt = optPcs.filter(p => !pcs.has(p)).length;
+    let sc = minF * 0.9;
+    sc += bass * 1.0 + interior * 4 + (5 - top) * 1.5;
+    sc += fing.barre ? 1.5 : 0;
+    sc += fing.count * 0.4;
+    sc -= minF <= 4 ? opens * 0.4 : 0;
+    sc += openInside * 1.2 + (maxF - minF >= 3 ? 1 : 0);
+    sc += missingOpt * 1.0;
+    sc -= sounding.length * 0.3;
+    seen.set(key, { frets, fingers: fing.fingers, barre: fing.barre, minF, maxF, bass, score: sc, sounding });
+  }
+
+  const all = [...seen.values()].sort((a, b) => a.score - b.score);
+  const picked = [];
+  const canonShape = CANON[typeId] && CANON[typeId][root.pc];
+  if (canonShape) {
+    const v = makeEntry(parseShape(canonShape));
+    if (v) { v.score = -99; picked.push(v); }
+  }
+  if (typeId === '5') {
+    // Acordes de quinta: tónica en la 6ª y en la 5ª cuerda
+    const e = (root.pc - 4 + 12) % 12, a = (root.pc - 9 + 12) % 12;
+    const shapes = [[e, e + 2, e + 2, -1, -1, -1], [-1, a, a + 2, a + 2, -1, -1]];
+    if (e + 12 <= 15) shapes.push([e + 12, e + 14, e + 14, -1, -1, -1]);
+    return shapes.map(makeEntry).filter(Boolean).sort((x, y) => x.minF - y.minF);
+  }
+  for (const v of all) {
+    if (picked.length >= max) break;
+    const clash = picked.some(p => {
+      if (p.bass === v.bass && Math.abs(p.minF - v.minF) <= 2) return true;
+      // mismo acorde con menos cuerdas
+      return v.sounding.every(i => p.frets[i] === v.frets[i]);
+    });
+    if (!clash) picked.push(v);
+  }
+  const first = picked[0] && picked[0].score === -99 ? picked.shift() : null;
+  picked.sort((a, b) => a.minF - b.minF || a.score - b.score);
+  return first ? [first, ...picked] : picked;
+}
+
+function makeEntry(frets) {
+  const fing = fingering(frets);
+  if (!fing) return null;
+  const sounding = [];
+  frets.forEach((f, i) => { if (f >= 0) sounding.push(i); });
+  const fr = frets.filter(f => f > 0);
+  return { frets, fingers: fing.fingers, barre: fing.barre, minF: fr.length ? Math.min(...fr) : 0,
+    maxF: fr.length ? Math.max(...fr) : 0, bass: sounding[0], score: 0, sounding };
+}
+
 /* ---------------- Estado ---------------- */
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
@@ -376,11 +687,15 @@ const state = {
   tuning: saved.tuning || 'estandar',
   a4: (saved.a4 >= 430 && saved.a4 <= 450) ? saved.a4 : 440,
   auto: saved.auto !== false,
+  view: saved.view === 'chords' ? 'chords' : 'tuner',
+  chordRoot: (saved.chordRoot >= 0 && saved.chordRoot < 12) ? saved.chordRoot : 0,
+  chordType: TYPES.some(t => t.id === saved.chordType) ? saved.chordType : 'M',
+  pos: 0,
   selected: 0,      // cuerda elegida en modo manual
   active: -1,       // cuerda que se está midiendo
   tuned: new Set()
 };
-const persist = () => store.set('afinador.state', { inst: state.inst, tuning: state.tuning, a4: state.a4, auto: state.auto });
+const persist = () => store.set('afinador.state', { inst: state.inst, tuning: state.tuning, a4: state.a4, auto: state.auto, view: state.view, chordRoot: state.chordRoot, chordType: state.chordType });
 
 const inst = () => INSTRUMENTS[state.inst];
 const tuning = () => inst().tunings.find(t => t.id === state.tuning) || inst().tunings[0];
@@ -450,7 +765,7 @@ function renderTunings() {
   for (const t of def.tunings) {
     const o = document.createElement('option');
     o.value = t.id;
-    o.textContent = `${t.label} · ${t.notes.map(m => noteParts(m, t.flats).letter).join(' ')}`;
+    o.textContent = `${t.label} · ${t.notes.map(m => noteParts(m, t.flats).name).join(' ')}`;
     el.tuningSelect.appendChild(o);
   }
   el.tuningSelect.value = tuning().id;
@@ -481,7 +796,7 @@ function renderAll() { renderInstruments(); renderTunings(); renderStrings(); re
 
 function noteHTML(midi, flats) {
   const p = noteParts(midi, flats);
-  return `${p.name}<sub>${p.oct}</sub><span class="letter">${p.letter}</span>`;
+  return `${p.name}<sub>${p.oct}</sub>`;
 }
 function showTarget(i) {
   const t = tuning();
@@ -592,7 +907,7 @@ function median(arr) { const s = [...arr].sort((a, b) => a - b); return s[s.leng
 
 function loop() {
   raf = requestAnimationFrame(loop);
-  if ((frame++ & 1) === 1) return; // ~30 lecturas por segundo
+  if ((frame++ & 1) === 1 || state.view !== 'tuner') return; // ~30 lecturas por segundo
   analyser.getFloatTimeDomainData(buf);
   const def = inst();
   const r = detectPitch(buf, audioCtx.sampleRate, def.minF, def.maxF);
@@ -648,6 +963,164 @@ function update(f, now) {
 }
 
 renderAll();
+
+/* ---------------- Pestañas ---------------- */
+function renderView() {
+  const chords = state.view === 'chords';
+  $('viewTuner').hidden = chords; $('viewChords').hidden = !chords;
+  $('tabTuner').setAttribute('aria-selected', String(!chords));
+  $('tabChords').setAttribute('aria-selected', String(chords));
+  if (chords) renderChords();
+}
+$('tabTuner').addEventListener('click', () => { state.view = 'tuner'; persist(); renderView(); });
+$('tabChords').addEventListener('click', () => { state.view = 'chords'; persist(); renderView(); });
+
+/* ---------------- Acordes ---------------- */
+const voicingCache = new Map();
+function getVoicings() {
+  const k = state.chordRoot + '|' + state.chordType;
+  if (!voicingCache.has(k)) voicingCache.set(k, voicings(state.chordRoot, state.chordType));
+  return voicingCache.get(k);
+}
+(function buildPickers() {
+  const roots = $('roots'), types = $('types');
+  ROOTS.forEach((r, i) => {
+    const b = document.createElement('button');
+    b.textContent = r.name;
+    b.addEventListener('click', () => { state.chordRoot = i; state.pos = 0; persist(); renderChords(); });
+    roots.appendChild(b);
+  });
+  TYPES.forEach(t => {
+    const b = document.createElement('button');
+    b.textContent = t.label; b.dataset.id = t.id;
+    b.addEventListener('click', () => { state.chordType = t.id; state.pos = 0; persist(); renderChords(); });
+    types.appendChild(b);
+  });
+})();
+
+function renderChords() {
+  [...$('roots').children].forEach((b, i) => b.setAttribute('aria-pressed', String(i === state.chordRoot)));
+  [...$('types').children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === state.chordType)));
+  const info = chordInfo(state.chordRoot, state.chordType);
+  $('chordName').textContent = info.name;
+  $('chordTones').innerHTML = info.notes.map((n, i) =>
+    `<div class="tone${info.optional[i] ? ' opt' : ''}"><b>${n}</b><span>${info.optional[i] ? '(' + info.degrees[i] + ')' : info.degrees[i]}</span></div>`).join('');
+  const vs = getVoicings();
+  state.pos = Math.min(state.pos, Math.max(0, vs.length - 1));
+  $('posLabel').textContent = vs.length ? `Posición ${state.pos + 1} de ${vs.length}` : 'Sin posiciones';
+  $('posPrev').disabled = state.pos <= 0;
+  $('posNext').disabled = state.pos >= vs.length - 1;
+  drawDiagram(vs[state.pos], info);
+  renderChordMsg();
+}
+
+function renderChordMsg() {
+  const m = $('chordMsg');
+  const t = INSTRUMENTS.guitarra.tunings.find(x => x.id === (state.inst === 'guitarra' ? state.tuning : 'estandar'));
+  m.className = 'chord-msg';
+  if (!t || t.id === 'estandar') {
+    m.textContent = 'Posiciones para afinación estándar (E A D G B E). La tónica va en color.';
+  } else if (t.id === 'medio' || t.id === 'tono') {
+    m.classList.add('warn');
+    m.textContent = `Tu guitarra está en ${t.label.toLowerCase()}: las formas son las mismas, pero el acorde sonará ${t.id === 'medio' ? 'medio tono' : 'un tono'} más bajo.`;
+  } else {
+    m.classList.add('warn');
+    m.textContent = `Tu guitarra está en ${t.label}: estas posiciones son para afinación estándar y no sonarán igual.`;
+  }
+}
+
+function drawDiagram(v, info) {
+  const svg = $('diagram');
+  if (!v) { svg.innerHTML = ''; return; }
+  const X0 = 52, DX = 28, Y0 = 58, DY = 40, ROWS = 5;
+  const xs = i => X0 + i * DX;
+  const fretted = v.frets.filter(f => f > 0);
+  const hasOpen = v.frets.some(f => f === 0);
+  const base = (v.maxF <= 5 && (v.minF <= 2 || hasOpen)) ? 1 : v.minF;
+  const rootPc = ROOTS[state.chordRoot].pc;
+  const spelled = {};
+  const type = TYPES.find(t => t.id === state.chordType);
+  [...type.req, ...(type.opt || [])].forEach(k => { spelled[(rootPc + IV[k][0]) % 12] = spell(ROOTS[state.chordRoot], k); });
+  let h = '';
+  for (let r = 0; r <= ROWS; r++) h += `<line class="d-fret" x1="${xs(0)}" y1="${Y0 + r * DY}" x2="${xs(5)}" y2="${Y0 + r * DY}"/>`;
+  for (let i = 0; i < 6; i++) h += `<line class="d-string" x1="${xs(i)}" y1="${Y0}" x2="${xs(i)}" y2="${Y0 + ROWS * DY}"/>`;
+  if (base === 1) h += `<rect class="d-nut" x="${xs(0) - 1}" y="${Y0 - 6}" width="${xs(5) - xs(0) + 2}" height="7" rx="1.5"/>`;
+  else h += `<text class="d-base" x="${xs(0) - 14}" y="${Y0 + DY / 2 + 2}">${base}</text><text class="d-base-u" x="${xs(0) - 14}" y="${Y0 + DY / 2 + 15}">traste</text>`;
+  const cy = f => Y0 + (f - base) * DY + DY / 2;
+  if (v.barre) {
+    const b = v.barre;
+    h += `<rect class="d-dot" x="${xs(b.from) - 12}" y="${cy(b.fret) - 12}" width="${xs(b.to) - xs(b.from) + 24}" height="24" rx="12"/>`;
+    h += `<text class="d-fing" x="${xs(b.from)}" y="${cy(b.fret) + 5}">1</text>`;
+  }
+  v.frets.forEach((f, i) => {
+    const pc = f >= 0 ? (STD[i] + f) % 12 : -1;
+    const isRoot = pc === rootPc;
+    if (f < 0) h += `<text class="d-mute" x="${xs(i)}" y="${Y0 - 16}">×</text>`;
+    else if (f === 0) h += `<circle class="d-open${isRoot ? ' root' : ''}" cx="${xs(i)}" cy="${Y0 - 22}" r="7"/>`;
+    else {
+      const underBarre = v.barre && f === v.barre.fret && i >= v.barre.from && i <= v.barre.to;
+      if (!underBarre) {
+        h += `<circle class="d-dot${isRoot ? ' root' : ''}" cx="${xs(i)}" cy="${cy(f)}" r="12"/>`;
+        h += `<text class="d-fing" x="${xs(i)}" y="${cy(f) + 5}">${v.fingers[i] || ''}</text>`;
+      }
+    }
+    if (f >= 0) h += `<text class="d-note${isRoot ? ' root' : ''}" x="${xs(i)}" y="${Y0 + ROWS * DY + 22}">${spelled[pc] || ''}</text>`;
+  });
+  svg.innerHTML = h;
+  const desc = v.frets.map((f, i) => `cuerda ${6 - i}: ${f < 0 ? 'no se toca' : f === 0 ? 'al aire' : 'traste ' + f}`).join(', ');
+  svg.setAttribute('aria-label', `${info.name}. ${desc}`);
+}
+
+function movePos(d) {
+  const vs = getVoicings();
+  const n = state.pos + d;
+  if (n >= 0 && n < vs.length) { state.pos = n; renderChords(); }
+}
+$('posPrev').addEventListener('click', () => movePos(-1));
+$('posNext').addEventListener('click', () => movePos(1));
+(function swipe() {
+  const d = $('diagram'); let x0 = null;
+  d.addEventListener('pointerdown', e => { x0 = e.clientX; });
+  d.addEventListener('pointerup', e => {
+    if (x0 === null) return;
+    const dx = e.clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) movePos(dx < 0 ? 1 : -1);
+  });
+})();
+
+/* Sonido: cuerda pulsada (Karplus-Strong), rasgueo de grave a agudo */
+let playCtx = null;
+function strum() {
+  const v = getVoicings()[state.pos];
+  if (!v) return;
+  if (!playCtx) playCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (playCtx.state === 'suspended') playCtx.resume();
+  const sr = playCtx.sampleRate, dur = 2.6, gap = 0.04;
+  const out = new Float32Array(Math.floor(sr * (dur + gap * 6)));
+  let k = 0;
+  v.frets.forEach((f, i) => {
+    if (f < 0) return;
+    const freq = state.a4 * Math.pow(2, (STD[i] + f - 69) / 12);
+    const D = sr / freq, N0 = Math.floor(D), w = D - N0;
+    const off = Math.floor(k * gap * sr); k++;
+    const len = Math.floor(sr * dur);
+    const y = new Float32Array(len);
+    let prev = 0;
+    for (let n = 0; n < Math.min(N0 + 1, len); n++) { const r = Math.random() * 2 - 1; y[n] = (r + prev) * 0.5; prev = r; }
+    const decay = 0.996;
+    for (let n = N0 + 1; n < len; n++) y[n] = decay * ((1 - w) * y[n - N0] + w * y[n - N0 - 1]);
+    for (let n = 0; n < len; n++) out[off + n] += y[n] * 0.22;
+  });
+  const fade = Math.floor(sr * 0.3);
+  for (let n = 0; n < fade; n++) out[out.length - 1 - n] *= n / fade;
+  const buffer = playCtx.createBuffer(1, out.length, sr);
+  buffer.copyToChannel ? buffer.copyToChannel(out, 0) : buffer.getChannelData(0).set(out);
+  const src = playCtx.createBufferSource();
+  src.buffer = buffer; src.connect(playCtx.destination); src.start();
+}
+$('playBtn').addEventListener('click', strum);
+
+renderView();
 
 /* ---------------- Uso sin conexión ---------------- */
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
